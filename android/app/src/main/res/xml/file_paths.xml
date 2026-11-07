@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 앱 캐시 디렉토리 — CSV Export 임시 파일 -->
+    <cache-path
+        name="csv_exports"
+        path="." />
+</paths>

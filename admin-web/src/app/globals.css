@@ -1,0 +1,46 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-green: #006E1C;
+  --color-brand-green-dark: #00541A;
+  --color-brand-green-light: #E8F5EC;
+  --color-brand-blue: #21638D;
+  --color-brand-blue-light: #E7EFF5;
+  --color-ink: #1A1F2C;
+  --color-ink-soft: #4B5563;
+  --color-ink-muted: #6B7280;
+  --color-line: #E5E7EB;
+  --color-surface: #FFFFFF;
+  --color-canvas: #F7F8FA;
+  --color-danger: #C0392B;
+  --color-warn: #B7791F;
+
+  --font-sans: "Noto Sans KR", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", Roboto, "Apple SD Gothic Neo", "Malgun Gothic", sans-serif;
+}
+
+@layer base {
+  html,
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-feature-settings: "ss01", "tnum";
+  }
+
+  table {
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Recharts tooltip readability */
+  .recharts-default-tooltip {
+    border-radius: 8px !important;
+    border: 1px solid var(--color-line) !important;
+    box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.18);
+  }
+}

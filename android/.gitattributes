@@ -1,0 +1,12 @@
+# 윈도우/맥/리눅스 혼용 시 줄바꿈 차이로 전체 파일이 변경된 것처럼 보이는 문제 방지
+* text=auto eol=lf
+
+# 바이너리 (줄바꿈 변환 금지)
+*.png binary
+*.webp binary
+*.jpg binary
+*.jks binary
+*.aar binary
+*.jar binary
+*.ttf binary
+*.otf binary

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- Samsung Health Data SDK(.aar)는 minSdk 29 요구. 앱 minSdk(28)는 유지하되 override.
+         SDK 호출은 SamsungHealthSource에서 try/catch + isReady()로 가드되므로
+         구버전(API 28) 기기는 자동으로 Health Connect 경로로 fallback. -->
+    <uses-sdk tools:overrideLibrary="com.samsung.android.sdk.health.data" />
+
+    <!-- 네트워크 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- [260707 심사 대비] Firebase Analytics가 자동 주입하는 광고 ID 권한 제거.
+         광고 없는 건강 앱 — Play 데이터 안전 폼(광고 ID 미수집)과 매니페스트 불일치 방지.
+         adid 수집 자체도 아래 application meta-data로 비활성화. -->
+    <uses-permission android:name="com.google.android.gms.permission.AD_ID" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_AD_ID" tools:node="remove" />
+    <uses-permission android:name="android.permission.ACCESS_ADSERVICES_ATTRIBUTION" tools:node="remove" />
+
+    <!-- 알림 + 알람 (로컬 푸시) -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <!-- [P1] USE_EXACT_ALARM 제거 (Play 심사 제한 권한, 알람/캘린더 핵심 앱만 허용).
+         SCHEDULE_EXACT_ALARM은 사용자 토글로 권한 받음 (Android 12+). -->
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <!-- [260812] 배터리 최적화 예외 요청 — 워치 없이 앱만 쓰는 사용자의 걸음/동기화 유실 대응.
+         Doze/App Standby 로 30분 주기 WorkManager 가 밀리고, 삼성헬스도 백그라운드에서 죽어
+         걸음 기록 자체가 끊기는 사례가 한의원 피드백으로 확인됨(9보·58보 등).
+         이 권한은 "예외 목록에 넣어달라"는 시스템 다이얼로그를 띄우기 위한 것이며,
+         사용자가 거부하면 앱은 그대로 동작한다(동기화 주기만 길어짐). -->
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
+
+    <!-- Health Connect 권한 (Read only) -->
+    <uses-permission android:name="android.permission.health.READ_STEPS" />
+    <uses-permission android:name="android.permission.health.READ_SLEEP" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE" />
+    <uses-permission android:name="android.permission.health.READ_HEART_RATE_VARIABILITY" />
+    <uses-permission android:name="android.permission.health.READ_OXYGEN_SATURATION" />
+    <!-- 과거 데이터 접근 (없으면 권한 부여 시점 이후 데이터만 읽힘) -->
+    <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_HISTORY" />
+    <!-- [Codex 검토 위험] WorkManager 백그라운드 동기화에 필요. 없으면 SecurityException으로 null 반환 → 누락 누락 동기화 발생 -->
+    <uses-permission android:name="android.permission.health.READ_HEALTH_DATA_IN_BACKGROUND" />
+
+    <!-- Health Connect 앱 인텐트 호환 (Android 11+ queries 필수) -->
+    <queries>
+        <package android:name="com.google.android.apps.healthdata" />
+        <!-- Samsung Health Data SDK — 삼성헬스 앱과 통신 (Android 11+ 패키지 가시성) -->
+        <package android:name="com.sec.android.app.shealth" />
+        <intent>
+            <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+        </intent>
+    </queries>
+
+    <application
+        android:name=".DangbomCareApp"
+        android:allowBackup="false"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="당봄케어"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.HealthConnectTest"
+        android:usesCleartextTraffic="false"
+        tools:replace="android:allowBackup"
+        tools:targetApi="31">
+
+        <property
+            android:name="android.health.connect.permission_usage_info"
+            android:resource="@string/health_permissions_rationale" />
+
+        <!-- [260707 심사 대비] Analytics 광고 ID 수집 비활성화 (권한 제거와 세트) -->
+        <meta-data
+            android:name="google_analytics_adid_collection_enabled"
+            android:value="false" />
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="당봄케어"
+            android:theme="@style/Theme.HealthConnectTest"
+            android:windowSoftInputMode="adjustResize|stateAlwaysHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+            <!-- Health Connect 권한 화면 호출용 -->
+            <intent-filter>
+                <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE" />
+            </intent-filter>
+
+            <!-- OAuth Deep Link (Google / Kakao 로그인 콜백) -->
+            <intent-filter android:autoVerify="false">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="dangdangcare" android:host="login-callback" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name="ViewPermissionUsageActivity"
+            android:exported="true"
+            android:permission="android.permission.START_VIEW_PERMISSION_USAGE"
+            android:targetActivity=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW_PERMISSION_USAGE" />
+                <category android:name="android.intent.category.HEALTH_PERMISSIONS" />
+            </intent-filter>
+        </activity-alias>
+
+        <!-- 로컬 알림 (AlarmManager) -->
+        <receiver
+            android:name=".notification.AlarmReceiver"
+            android:exported="false" />
+
+        <!-- [v1.0 fix - Codex 2차] FCM 메시징 서비스 (원격 푸시 수신 + 토큰 갱신) -->
+        <service
+            android:name=".notification.DangbomCareMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- 부팅 시 알람 재등록 -->
+        <receiver
+            android:name=".notification.BootReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.QUICKBOOT_POWERON" />
+                <action android:name="android.intent.action.MY_PACKAGE_REPLACED" />
+            </intent-filter>
+        </receiver>
+
+        <!-- CSV Export 파일 공유용 (Health Connect 데이터 추출) -->
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
+    </application>
+</manifest>

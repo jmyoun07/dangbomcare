@@ -1,0 +1,49 @@
+*.iml
+.gradle
+/local.properties
+local.properties
+local.properties.*
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+.DS_Store
+/build
+**/build/
+/captures
+.externalNativeBuild
+.cxx
+
+# Secrets — never commit
+*.jks
+*.keystore
+keystore/
+keystore.properties
+app/google-services.json
+google-services.json
+firebase-adminsdk-*.json
+
+# Build outputs
+*.apk
+*.aab
+*.ap_
+*.dex
+
+# Backup files
+*.bak
+*.bak.*
+
+# IDE (머신마다 경로가 달라 충돌만 남김)
+.idea/
+.kotlin/
+*.lnk
+
+# 브랜드 리네임 전 백업 (구 패키지 com.dangdang.hctest — 참고용, 빌드 대상 아님)
+_brand_rename_backup_260614/
+
+# 개발 중 디버그 캡처 / 로그
+build.log
+/w[0-9].png
+/_*.png

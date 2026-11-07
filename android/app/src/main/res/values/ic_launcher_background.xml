@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- [260730] 당봄한의원 원본 로고 수령 → 로고 색(#8DC641 초록)을 그대로 살리기 위해 흰 배경으로 변경.
+         이전 #A1BA60(연두) 배경은 흰색 클로버 실루엣과 짝이었다. 초록 로고를 연두 배경에 얹으면
+         두 색이 같은 계열이라 형태가 묻힌다. -->
+    <color name="ic_launcher_background">#FFFFFF</color>
+</resources>

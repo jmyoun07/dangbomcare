@@ -1,0 +1,47 @@
+﻿# Python
+venv/
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Environment variables (절대 커밋 금지)
+.env
+.env.*
+*.env
+# 단, 템플릿(.example)은 커밋 허용
+!.env.example
+!.env.staging.example
+
+# Logs
+*.log
+uvicorn.log
+install.log
+nohup.out
+
+# Build artifacts
+*.tar.gz
+deploy-payload.tar.gz
+backend.tar.gz
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Seed data (민감 정보 가능성)
+seed_demo_full_month.sql
+seed_demo_v2.sql
+seed_test_glucose.sql
+
+# Database
+*.sqlite
+*.db

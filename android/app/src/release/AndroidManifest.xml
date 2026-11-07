@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Release 빌드 전용 override.
+  - HTTPS 도메인만 허용 (https://dangdangcare.duckdns.org/).
+  - [v1.0] OAuth custom scheme intent-filter는 main manifest 그대로 유지 (B2B2C 의료 앱이라 위험 낮음).
+  - [v1.1 예정] HTTPS App Link + PKCE 전환 후 보안 강화.
+-->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <application
+        android:usesCleartextTraffic="false"
+        tools:replace="android:usesCleartextTraffic" />
+
+</manifest>

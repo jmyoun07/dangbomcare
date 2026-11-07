@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- [debug 전용] 로컬 staging 백엔드(http://localhost:8001, adb reverse)에 붙기 위해 cleartext 허용.
+     release 빌드는 main 매니페스트의 usesCleartextTraffic="false" 그대로 유지되어 안전함. -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <application
+        android:usesCleartextTraffic="true"
+        tools:replace="android:usesCleartextTraffic" />
+</manifest>

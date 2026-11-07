@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">당봄케어</string>
+    <string name="health_permissions_rationale">당봄케어는 환자의 건강 데이터를 분석해 맞춤형 피드백을 제공하기 위해 워치 데이터에 접근합니다.</string>
+</resources>

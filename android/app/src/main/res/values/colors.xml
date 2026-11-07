@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 당봄케어 브랜드 컬러 (당봄한의원 / arirangdm.com 스타일) -->
+    <color name="primary">#FF2D5F3F</color>            <!-- Deep Forest -->
+    <color name="primary_dark">#FF1F4A2E</color>
+    <color name="primary_light">#FF4A8060</color>
+    <color name="lime_accent">#FFA8D55C</color>        <!-- 강조 라임 -->
+    <color name="lime_light">#FFD4EBA8</color>
+    <color name="slate">#FF4A6670</color>
+    <color name="error_red">#FFE63946</color>
+    <color name="warning">#FFE9C46A</color>
+    <color name="info">#FF6B9BD8</color>
+
+    <!-- 텍스트 -->
+    <color name="text_primary">#FF1A2530</color>
+    <color name="text_secondary">#FF5C6B7A</color>
+    <color name="text_disabled">#FFAAB5C0</color>
+
+    <!-- 배경 -->
+    <color name="bg_primary">#FFFFFFFF</color>
+    <color name="bg_secondary">#FFF7F8F9</color>
+    <color name="bg_card">#FFFFFFFF</color>
+    <color name="divider">#FFE5E8EC</color>
+
+    <!-- 기본 -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>
